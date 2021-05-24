@@ -9,40 +9,40 @@ import network
 
 class Servo:
   """Clase que define a los servos que controlan las perillas de la esufa"""
-  def __init__(self,PIN,ID):
+  def __init__(self, PIN, ID):
     """
-    Construcci贸n de la instancia:
+    Construcción de la instancia:
     
     PIN : asigna un pin de el microcontrolador a esta salida:
     
-    ID : asigna una ID que NO se puede repetir para prop贸sitos 
-    del protocolo de comunicaci贸n
+    ID : asigna una ID que NO se puede repetir para propósitos 
+    del protocolo de comunicación
     """
     
-    #asignamos el pin como salida de modulaci贸n por ancho de pulso a una frecuencia de 50 Hz
+    #asignamos el pin como salida de modulación por ancho de pulso a una frecuencia de 50 Hz
     self.out = PWM(Pin(PIN))
     self.out.freq(50)
-    #colocamos ciclo de trabajo como 27, que pone al servo en un 谩ngulo que cierra el paso de gas
+    #colocamos ciclo de trabajo como 27, que pone al servo en un ángulo que cierra el paso de gas
     self.out.duty(27)
     #dtime : momento en el que la estufa va a ser apagada
     self.dtime = 0
-    #creamos una variable de instancia tipo string que contiene el t贸pico asignado a ese servo
+    #creamos una variable de instancia tipo string que contiene el tópico asignado a ese servo
     self.topic = "uYQgnrskrYUNSUm/cocina/servo{}".format(ID)
   
   
   def nivel(self,pot):
-    """m茅todo que transforma un valor x del 1 al 100 
-    en un ciclo de trabajo que equivale al 谩ngulo al 
+    """metodo que transforma un valor x del 1 al 100 
+    en un ciclo de trabajo que equivale al ángulo al 
     que debe ser colocada la perilla de la estufa para 
     dar una llama del x%"""
     angulo = int(float(pot)*(-73/99) + 128.73)
     self.out.duty(angulo)
   
   
-  def encender_estufa(self,pot,tiempo):
-    """m茅todo que enciende la estufa, colocandola primero
-    en su llama m谩xima, encendiendo el chispero y luego 
-    llev谩ndola al nivel especificado por pot durante el tiempo tiempo"""
+  def encender_estufa(self, pot, tiempo):
+    """método que enciende la estufa, colocandola primero
+    en su llama máxima, encendiendo el chispero y luego 
+    llevándola al nivel especificado por pot durante el tiempo 'tiempo' """
     self.nivel(100)
     ch.on()
     time.sleep(1)
@@ -51,13 +51,13 @@ class Servo:
     self.dtime = utime.time() + tiempo
   
   def apagar_tiempo(self):
-    """m茅todo que confirma que si la 'hora' actual es mayor 
+    """método que confirma que si la 'hora' actual es mayor 
     a la 'hora' cuando la estufa debe ser apagada, la apaga"""
     if self.dtime <= utime.time():
       self.out.duty(27)
   
 def ajustar_hora():
-  """funci贸n que sincroniza la hora de nuestro dispositivo con la dada por la nube"""
+  """función que sincroniza la hora de nuestro dispositivo con la dada por la nube"""
   ntptime.host = "0.south-america.pool.ntp.org"
 
   try:
@@ -66,8 +66,8 @@ def ajustar_hora():
     print("Error syncing time")
 
 def comprobar_apagado():
-  """funci贸n que comprueba que todas nuestras
-  estufas est茅n apagadas si el tiempo ya pas贸"""
+  """función que comprueba que todas nuestras
+  estufas están apagadas si el tiempo ya pasó"""
   for element in ls:
     element.apagar_tiempo()
 
@@ -80,10 +80,10 @@ def tratar_mensaje(msg):
   return tm,int(w)
   
 def form_sub(topic, msg):
-  """pasar谩 por todos los servos hasta saber cual coincide 
-  con el t贸pico, posteriormente decodificar谩 el c贸digo de 
+  """pasaría por todos los servos hasta saber cual coincide 
+  con el t贸pico, posteriormente decodificaría el código de 
   bytes para devolvernos dos variables con el tiempo de 
-  encendido y su nivel, proceder谩 a usar estas variables 
+  encendido y su nivel, procedería a usar estas variables 
   para encender la estufa"""
   for element in ls:
     if topic.decode() == element.topic:
@@ -107,14 +107,14 @@ def Conexion_MQTT():
   return client
 
 def Reinciar_conexion():
-  """funci贸n que actua en caso de OSError en la conexi贸n al broker"""
+  """función que actua en caso de OSError en la conexión al broker"""
   time.sleep(10)
   machine.reset()
 
 def conectar_wifi():
   """función que se conecta al wifi de nuestro hogar"""
   ssid = 'UNE_HFC_D380' #nombre de la red
-  password = 'ACA8F8DF' #contrase帽a de la red
+  password = 'ACA8F8DF' #contraseña de la red
   wlan = network.WLAN(network.STA_IF)
 
   wlan.active(True)
@@ -146,7 +146,7 @@ except OSError as e:
 while True:
   #comprueba si han llegado mensajes
   disp_pub = client.check_msg()
-  #comprueba que todas las estufas est茅n en su estado adecuado
+  #comprueba que todas las estufas están en su estado adecuado
   comprobar_apagado()
   #descansa por 0.1 segundos
   time.sleep(.1)
