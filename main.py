@@ -178,7 +178,7 @@ def Conexion_MQTT():
   return client
 
 def Reinciar_conexion():
-  """función que actua en caso de OSError en la conexi贸n"""
+  """función que actua en caso de OSError en la conexión"""
   time.sleep(10)
   reset()
 
