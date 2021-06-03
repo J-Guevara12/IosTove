@@ -164,10 +164,10 @@ def changestate():
 def Conexion_MQTT():
   """se conecta al broker MQTT"""
   client_id = ubinascii.hexlify(unique_id())
-  mqtt_server = 'ioticos.org'
+  mqtt_server = ''
   port_mqtt = 1883
-  user_mqtt = 'ioLpAcWZvzlT0za' 
-  pswd_mqtt = 'WW5JtB08sUnXvFr'
+  user_mqtt = '' 
+  pswd_mqtt = ''
   client = MQTTClient(client_id, mqtt_server,port_mqtt,user_mqtt,pswd_mqtt) 
   client.set_callback(form_sub)
   client.connect()
@@ -185,8 +185,8 @@ def Reinciar_conexion():
   
 def conectar_wifi():
   """función que se conecta al wifi de nuestro hogar"""
-  ssid = 'UNE_HFC_D380' #nombre de la red
-  password = 'ACA8F8DF' #contrase帽a de la red
+  ssid = '' #nombre de la red
+  password = '' #contraseña de la red
   wlan = network.WLAN(network.STA_IF)
 
   wlan.active(True)
