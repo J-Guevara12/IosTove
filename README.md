@@ -108,7 +108,3 @@ Si se toca el sensor táctil pasaremos de la estufa 1 a la 2 y así sucesivament
 - Implementar ayudas al cocinero aprovechando la pantalla OLED.
 - Creación de una carcasa que se ajuste a la estufa e integre la PCB y los 4 servos.
 - Planteamiento de un sistema de seguridad más eficiente.
-
-## Autores
-- Juan Diego Claros Orozco.
-- Juan Esteban Guevara Roncancio.
